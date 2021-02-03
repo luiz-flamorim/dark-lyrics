@@ -11,6 +11,7 @@ const scraperObject = {
         page.close()
 
         let allUrl = []
+        let bands = []
 
         for (let i = 0; i < alphabetList.length / 2; i++) {
 
@@ -30,12 +31,32 @@ const scraperObject = {
         }
 
         allUrl = allUrl.flat()
-        console.log(allUrl)
+        //check if the urls are from darklyrics
+        
+        for (let i = 0; i < 5; i++) { //replace 1 per allUrl.length
+            let artistPage = await browser.newPage()
+            await artistPage.setDefaultNavigationTimeout(0)
+            
+            console.log(`Scrapping the band page ${allUrl[i]}`)
+            await artistPage.goto(allUrl[i]);
+            
+            let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
+            let albumName = await artistPage.$$eval('div.album h2', band => band.map(name => name.textContent))
+            
+            let band = new Object({
+                url: allUrl[i],
+                name: bandName[0].replace(' LYRICS',''),
+                album: albumName
+            })
+
+            bands.push(band)
+        }
+
+        console.log(bands)
 
         await browser.close();
+        
     }
 }
 
 module.exports = scraperObject;
-
-//IMPORTANT: comle links are not from darkLyrics!!!!!
