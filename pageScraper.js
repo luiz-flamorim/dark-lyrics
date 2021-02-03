@@ -25,7 +25,6 @@ const scraperObject = {
             let artistsUrlList = artistList1.concat(artistList2)
 
             allUrl.push(artistsUrlList)
-            // console.log(artistsUrlList);
 
             allArtistsPage.close()
         }
@@ -38,3 +37,5 @@ const scraperObject = {
 }
 
 module.exports = scraperObject;
+
+//IMPORTANT: comle links are not from darkLyrics!!!!!
