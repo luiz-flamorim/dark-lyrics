@@ -4,30 +4,34 @@ const scraperObject = {
         let page = await browser.newPage();
         await page.setDefaultNavigationTimeout(0)
 
-        console.log(`Navigating to ${this.url}...`);
+        console.log(`Opening ${this.url}`);
         await page.goto(this.url);
-
         let alphabetList = await page.$$eval('div.listrow a', urls => urls.map(url1 => url1.href))
-        // console.log(alphabetList);
 
         page.close()
 
-        for (let i = 0; i<alphabetList.length/2; i++) {
+        let allUrl = []
 
-            let allArtists = await browser.newPage()
-            await allArtists.setDefaultNavigationTimeout(0)
+        for (let i = 0; i < alphabetList.length / 2; i++) {
 
-            console.log(`i = ${i} - Navigating to ${alphabetList[i]}...`);
-            await allArtists.goto(alphabetList[i]);
+            let allArtistsPage = await browser.newPage()
+            await allArtistsPage.setDefaultNavigationTimeout(0)
 
-            let artistList2 = await allArtists.$$eval('div.artists.fr a', urls => urls.map(url1 => url1.href))
-            let artistList1 = await allArtists.$$eval('div.artists.fl a', urls => urls.map(url1 => url1.href))
-            let allUrls = artistList1.concat(artistList2)
+            console.log(`Scrapping page ${alphabetList[i]}`);
+            await allArtistsPage.goto(alphabetList[i]);
 
-            console.log(allUrls);
+            let artistList2 = await allArtistsPage.$$eval('div.artists.fr a', urls => urls.map(url1 => url1.href))
+            let artistList1 = await allArtistsPage.$$eval('div.artists.fl a', urls => urls.map(url1 => url1.href))
+            let artistsUrlList = artistList1.concat(artistList2)
 
-            allArtists.close()
+            allUrl.push(artistsUrlList)
+            // console.log(artistsUrlList);
+
+            allArtistsPage.close()
         }
+
+        allUrl = allUrl.flat()
+        console.log(allUrl)
 
         await browser.close();
     }
