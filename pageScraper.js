@@ -30,23 +30,37 @@ const scraperObject = {
             allArtistsPage.close()
         }
 
-        allUrl = allUrl.flat()
-        //check if the urls are from darklyrics
-        
+        allUrl = allUrl.flat().filter(item => ~item.indexOf("darklyrics"));
+        //I have filtered links not matching to darlyrics.com: 8973 original links to 8734 remaining
+
         for (let i = 0; i < 5; i++) { //replace 1 per allUrl.length
             let artistPage = await browser.newPage()
             await artistPage.setDefaultNavigationTimeout(0)
-            
+
             console.log(`Scrapping the band page ${allUrl[i]}`)
             await artistPage.goto(allUrl[i]);
-            
+
             let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
+
             let albumName = await artistPage.$$eval('div.album h2', band => band.map(name => name.textContent))
-            
+            //I need to get just what is inside of the quotes in the album name
+            // console.log(albumName[0].substring(albumName[0].indexOf('"') + 1))
+
             let band = new Object({
                 url: allUrl[i],
-                name: bandName[0].replace(' LYRICS',''),
-                album: albumName
+                name: bandName[0].replace(' LYRICS', ''),
+                //--> I need to find a way to count the number of albums to create the album objects
+                album: {
+                    //--> I need to count the number of songs
+                    // year: albumYear
+                    name: albumName,
+                    // songs: [
+                    //     {name: songName, lyrics: songLyrics},
+                    //     {name: songName, lyrics: songLyrics},
+                    //     {name: songName, lyrics: songLyrics}
+                    // ]
+
+                }
             })
 
             bands.push(band)
@@ -55,7 +69,7 @@ const scraperObject = {
         console.log(bands)
 
         await browser.close();
-        
+
     }
 }
 
