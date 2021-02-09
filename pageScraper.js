@@ -33,7 +33,7 @@ const scraperObject = {
         allUrl = allUrl.flat().filter(item => ~item.indexOf("darklyrics"));
         //I have filtered links not matching to darlyrics.com: 8973 original links to 8734 remaining
 
-        for (let i = 0; i < 5; i++) { //replace 1 per allUrl.length
+        for (let i = 0; i < 10; i++) { //replace per allUrl.length
             let artistPage = await browser.newPage()
             await artistPage.setDefaultNavigationTimeout(0)
 
@@ -42,31 +42,37 @@ const scraperObject = {
 
             let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
 
-            let albumName = await artistPage.$$eval('div.album h2', band => band.map(name => name.textContent))
-            //I need to get just what is inside of the quotes in the album name
-            // console.log(albumName[0].substring(albumName[0].indexOf('"') + 1))
+            let albumData = await artistPage.$$eval('div.album', albums => albums.map(album => {
+                const aName = album.querySelector('h2').textContent;
+
+                const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
+                    const songName = song.textContent
+                    const songUrl = song.href
+
+                    return {
+                        sName: songName,
+                        sUrl: songUrl
+                    }
+                })
+
+                return {
+                    albumName: aName,
+                    albumSongs: aSongs,
+                }
+            }))
 
             let band = new Object({
                 url: allUrl[i],
                 name: bandName[0].replace(' LYRICS', ''),
-                //--> I need to find a way to count the number of albums to create the album objects
-                album: {
-                    //--> I need to count the number of songs
-                    // year: albumYear
-                    name: albumName,
-                    // songs: [
-                    //     {name: songName, lyrics: songLyrics},
-                    //     {name: songName, lyrics: songLyrics},
-                    //     {name: songName, lyrics: songLyrics}
-                    // ]
-
-                }
+                albums: albumData
             })
 
             bands.push(band)
         }
 
-        console.log(bands)
+        for(a in bands){
+            console.log(bands[a])
+        }
 
         await browser.close();
 
@@ -74,3 +80,10 @@ const scraperObject = {
 }
 
 module.exports = scraperObject;
+
+
+            // for (a in albumData) {
+            //     for (b in albumData[a].aSongs) {
+            //         console.log(albumData[a].aSongs[b])
+            //     }
+            // }
