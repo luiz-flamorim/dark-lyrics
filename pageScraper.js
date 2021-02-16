@@ -13,7 +13,7 @@ const scraperObject = {
         let allUrl = []
         let bands = []
 
-        for (let i = 0; i < alphabetList.length / 2; i++) {
+        for (let i = 0; i < 10; i++) { //alphabetList.length/2
 
             let allArtistsPage = await browser.newPage()
             await allArtistsPage.setDefaultNavigationTimeout(0)
@@ -33,7 +33,7 @@ const scraperObject = {
         allUrl = allUrl.flat().filter(item => ~item.indexOf("darklyrics"));
         //I have filtered links not matching to darlyrics.com: 8973 original links to 8734 remaining
 
-        for (let i = 0; i < 10; i++) { //replace per allUrl.length
+        for (let i = 0; i < 10; i++) { //allUrl.length
             let artistPage = await browser.newPage()
             await artistPage.setDefaultNavigationTimeout(0)
 
@@ -43,20 +43,22 @@ const scraperObject = {
             let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
 
             let albumData = await artistPage.$$eval('div.album', albums => albums.map(album => {
-                const aName = album.querySelector('h2').textContent;
+                const nameAndYear = album.querySelector('h2').textContent;
+                const albumName = album.querySelector('h2 strong').textContent;
 
                 const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
                     const songName = song.textContent
                     const songUrl = song.href
 
                     return {
-                        sName: songName,
-                        sUrl: songUrl
+                        songName: songName,
+                        songUrl: songUrl
                     }
                 })
 
                 return {
-                    albumName: aName,
+                    albumName: albumName.replaceAll('\"',''),
+                    albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2),
                     albumSongs: aSongs,
                 }
             }))
@@ -70,9 +72,9 @@ const scraperObject = {
             bands.push(band)
         }
 
-        for(a in bands){
-            console.log(bands[a])
-        }
+
+        const fs = require('fs');
+        fs.writeFileSync('./results.json', JSON.stringify(bands));
 
         await browser.close();
 
@@ -81,9 +83,14 @@ const scraperObject = {
 
 module.exports = scraperObject;
 
+//-------backup!
 
-            // for (a in albumData) {
-            //     for (b in albumData[a].aSongs) {
-            //         console.log(albumData[a].aSongs[b])
-            //     }
-            // }
+// for (a in albumData) {
+//     for (b in albumData[a].aSongs) {
+//         console.log(albumData[a].aSongs[b])
+//     }
+// }
+
+// for(a in bands){
+//     console.log(bands[a])
+// }
