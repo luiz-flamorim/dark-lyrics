@@ -12,6 +12,7 @@ const scraperObject = {
 
         let allUrl = []
         let bands = []
+        let errors = []
 
         for (let i = 0; i < alphabetList.length / 2; i++) {
         // for (let i = 0; i < 1; i++) {
@@ -78,23 +79,25 @@ const scraperObject = {
                         }
                     })
                     return {
-                        albumType: albumType.replaceAll('\n', ''),
                         albumName: albumName.replaceAll('\"', ''),
+                        albumType: albumType.replaceAll('\n', ''),
                         albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
                         albumSongs: aSongs,
                     }
                 }))
                 let band = new Object({
-                    bandUrl: allUrl[i],
                     bandName: bandName[0].replace(' LYRICS', ''),
+                    bandUrl: allUrl[i],
                     bandAlbums: albumData
                 })
                 bands.push(band)
             } else {
                 console.log('Error: ' + allUrl[i])
+                errors.push(allUrl[i])
             }
             const fs = require('fs');
             fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
+            fs.writeFileSync('./errors.json', JSON.stringify(errors, null, '\t'));
             // console.log(JSON.stringify(bands, null, '\t'))
         }
         await browser.close();
