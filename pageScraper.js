@@ -42,7 +42,6 @@ const scraperObject = {
 
             //Checking if there is content in the page
             let isPageValid = await artistPage.$$eval('div.cont h2', band => band.map(name => name.textContent))
-            console.log(isPageValid)
 
             if (!isPageValid[0].includes('not found')) {
 
@@ -71,6 +70,7 @@ const scraperObject = {
                         }
                     })
                     return {
+                        albumRawData: nameAndYear,
                         albumName: albumName.replaceAll('\"', ''),
                         albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
                         albumSongs: aSongs,
@@ -82,6 +82,8 @@ const scraperObject = {
                     bandAlbums: albumData
                 })
                 bands.push(band)
+            } else {
+                console.log('Error: ' + allUrl[i])
             }
             const fs = require('fs');
             fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
