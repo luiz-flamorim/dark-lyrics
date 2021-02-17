@@ -14,7 +14,7 @@ const scraperObject = {
         let bands = []
 
         for (let i = 0; i < alphabetList.length / 2; i++) {
-
+        // for (let i = 0; i < 1; i++) {
             let allArtistsPage = await browser.newPage()
             await allArtistsPage.setDefaultNavigationTimeout(0)
 
@@ -34,6 +34,7 @@ const scraperObject = {
         //I have filtered links not matching to darlyrics.com: 8973 original links to 8734 remaining
 
         for (let i = 0; i < allUrl.length; i++) {
+        // for (let i = 0; i < 1; i++) {
             let artistPage = await browser.newPage()
             await artistPage.setDefaultNavigationTimeout(0)
 
@@ -61,6 +62,13 @@ const scraperObject = {
                         albumName = album.querySelector('h2').textContent;
                     }
 
+                    let albumType
+                    if(album.textContent.includes(':')){
+                        albumType = album.textContent.split(':')[0]
+                    } else {
+                        albumType = '(no data)'
+                    }
+
                     const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
                         const songName = song.textContent
                         const songUrl = song.href
@@ -70,7 +78,7 @@ const scraperObject = {
                         }
                     })
                     return {
-                        albumRawData: nameAndYear,
+                        albumType: albumType.replaceAll('\n', ''),
                         albumName: albumName.replaceAll('\"', ''),
                         albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
                         albumSongs: aSongs,
@@ -87,9 +95,7 @@ const scraperObject = {
             }
             const fs = require('fs');
             fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
-            
             // console.log(JSON.stringify(bands, null, '\t'))
-
         }
         await browser.close();
     }
