@@ -43,9 +43,9 @@ const scraperObject = {
             await artistPage.goto(allUrl[i]);
 
             //Checking if there is content in the page
-            let isPageValid = await artistPage.$$eval('div.cont h2', band => band.map(name => name.textContent))
-
-            if (!isPageValid[0].includes('not found')) {
+            // let isPageValid = await artistPage.$$eval('div.cont h2', band => band.map(name => name.textContent))
+            // if (!isPageValid[0].includes('not found')) {
+            try {
 
                 let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
 
@@ -56,19 +56,29 @@ const scraperObject = {
                         nameAndYear += '(no data)'
                     }
 
-                    let albumName
-                    if (album.querySelector('h2 strong')) {
-                        albumName = album.querySelector('h2 strong').textContent;
-                    } else {
-                        albumName = album.querySelector('h2').textContent;
-                    }
-
+                    let albumName;
                     let albumType
-                    if(album.textContent.includes(':')){
+                    try {
+                        albumName = album.querySelector('h2 strong').textContent
+                        // let albumName
+                        // if (album.querySelector('h2 strong')) {
+                        //     albumName = album.querySelector('h2 strong').textContent;
+                        // } else {
+                        //     albumName = album.querySelector('h2').textContent;
+                        // }
+
                         albumType = album.textContent.split(':')[0]
-                    } else {
+                        // let albumType
+                        // if(album.textContent.includes(':')){
+                        //     albumType = album.textContent.split(':')[0]
+                        // } else {
+                        //     albumType = '(no data)'
+                        // }
+                    } catch (error) {
+                        albumName = album.querySelector('h2').textContent;
                         albumType = '(no data)'
                     }
+
 
                     const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
                         const songName = song.textContent
@@ -91,13 +101,17 @@ const scraperObject = {
                     bandAlbums: albumData
                 })
                 bands.push(band)
-            } else {
+            } catch (error) {
                 console.log('Error: ' + allUrl[i])
-                errors.push(allUrl[i])
+                let band = new Object({
+                    bandUrl: allUrl[i],
+                    error: error
+                })
+                bands.push(band)
             }
             const fs = require('fs');
             fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
-            fs.writeFileSync('./errors.json', JSON.stringify(errors, null, '\t'));
+            // fs.writeFileSync('./errors.json', JSON.stringify(errors, null, '\t'));
             // console.log(JSON.stringify(bands, null, '\t'))
         }
         await browser.close();
