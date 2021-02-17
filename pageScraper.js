@@ -13,7 +13,7 @@ const scraperObject = {
         let allUrl = []
         let bands = []
 
-        for (let i = 0; i < alphabetList.length/2; i++) { 
+        for (let i = 0; i < alphabetList.length / 2; i++) {
 
             let allArtistsPage = await browser.newPage()
             await allArtistsPage.setDefaultNavigationTimeout(0)
@@ -33,54 +33,62 @@ const scraperObject = {
         allUrl = allUrl.flat().filter(item => ~item.indexOf("darklyrics"));
         //I have filtered links not matching to darlyrics.com: 8973 original links to 8734 remaining
 
-        for (let i = allUrl.length; i < allUrl.length; i++) {
+        for (let i = 0; i < allUrl.length; i++) {
             let artistPage = await browser.newPage()
             await artistPage.setDefaultNavigationTimeout(0)
 
             console.log(`index ${i} | Scrapping the band page ${allUrl[i]}`)
             await artistPage.goto(allUrl[i]);
 
-            let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
+            //Checking if there is content in the page
+            let isPageValid = await artistPage.$$eval('div.cont h2', band => band.map(name => name.textContent))
+            console.log(isPageValid)
 
-            let albumData = await artistPage.$$eval('div.album', albums => albums.map(album => {
+            if (!isPageValid[0].includes('not found')) {
 
-                let nameAndYear = album.querySelector('h2').textContent
-                if (!nameAndYear.includes('(')) {
-                    nameAndYear += '(no data)'
-                }
+                let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
 
-                let albumName
-                if (album.querySelector('h2 strong')) {
-                    albumName = album.querySelector('h2 strong').textContent;
-                } else {
-                    albumName = album.querySelector('h2').textContent;
-                }
+                let albumData = await artistPage.$$eval('div.album', albums => albums.map(album => {
 
-                const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
-                    const songName = song.textContent
-                    const songUrl = song.href
-                    return {
-                        songName: songName,
-                        songUrl: songUrl
+                    let nameAndYear = album.querySelector('h2').textContent
+                    if (!nameAndYear.includes('(')) {
+                        nameAndYear += '(no data)'
                     }
-                })
-                return {
-                    albumName: albumName.replaceAll('\"', ''),
-                    albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
-                    albumSongs: aSongs,
-                }
-            }))
-            let band = new Object({
-                bandUrl: allUrl[i],
-                bandName: bandName[0].replace(' LYRICS', ''),
-                bandAlbums: albumData
-            })
-            bands.push(band)
-        }
-        const fs = require('fs');
-        fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
-        // console.log(JSON.stringify(bands, null, '\t'))
 
+                    let albumName
+                    if (album.querySelector('h2 strong')) {
+                        albumName = album.querySelector('h2 strong').textContent;
+                    } else {
+                        albumName = album.querySelector('h2').textContent;
+                    }
+
+                    const aSongs = Array.from(album.querySelectorAll('a')).map(song => {
+                        const songName = song.textContent
+                        const songUrl = song.href
+                        return {
+                            songName: songName,
+                            songUrl: songUrl
+                        }
+                    })
+                    return {
+                        albumName: albumName.replaceAll('\"', ''),
+                        albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
+                        albumSongs: aSongs,
+                    }
+                }))
+                let band = new Object({
+                    bandUrl: allUrl[i],
+                    bandName: bandName[0].replace(' LYRICS', ''),
+                    bandAlbums: albumData
+                })
+                bands.push(band)
+            }
+            const fs = require('fs');
+            fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
+            
+            // console.log(JSON.stringify(bands, null, '\t'))
+
+        }
         await browser.close();
     }
 }
