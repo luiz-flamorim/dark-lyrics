@@ -1,4 +1,4 @@
-//how to make this relative to the CSS styles?
+// define margins
 let unit = 10
 let animationSpeed = 1000;
 
@@ -11,7 +11,9 @@ let margin = {
 
 let width = unit * 90 - margin.left - margin.right;
 let height = unit * 50 - margin.top - margin.bottom;
+//Q: how to make this relative to the CSS styles?
 
+// add the properties to the SVG
 let svg = d3.select('#chart1')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -19,6 +21,7 @@ let svg = d3.select('#chart1')
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+ //Create the scales - fixed values
 let x = d3.scaleBand()
     .range([0, width])
     .padding(0.15)
@@ -26,15 +29,18 @@ let x = d3.scaleBand()
 let y = d3.scaleLinear()
     .range([height, 0])
 
+// parse the data 
 d3.json('/Scrapper/results.json')
     .then((data) => {
 
+        // function parses the data and returns an array of Key and Value
         let entries = initialLetters(data)
 
         const maxCount = d3.max(entries, d => d.value);
         let letters = entries.map(d => d.key);
         letters = letters.sort();
 
+        //add domain to scales: values that will vary
         x.domain(letters)
         y.domain([0, maxCount])
             .nice() // rounds up the value for the axis
@@ -43,7 +49,6 @@ d3.json('/Scrapper/results.json')
             .call(d3.axisLeft(y))
             .attr('class','text-axis')
 
-
         svg.append('g') // x axis
             .attr('transform', `translate(0, ${height})`)
             .call(d3.axisBottom(x))
@@ -51,16 +56,15 @@ d3.json('/Scrapper/results.json')
             .attr('class','text-axis')
             .attr('text-anchor', 'middle')
 
+        // function uses the parsed data to iterate through and create the bar chart
         createBars(entries)
 
     }).catch((error) => {
         throw error;
     })
 
-
 // FUNCTIONS
 function createBars(data) {
-
     svg.selectAll('.bar-group')
         .data(data, d => d.key)
         .join(
