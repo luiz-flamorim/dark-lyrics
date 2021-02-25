@@ -7,7 +7,6 @@
 
 main {
     min-height: 100vh;
-    /* background: linear-gradient(to right top, #0e0e0e, #2d2a2e); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,7 +23,7 @@ main {
     align-items: center;
     justify-content: center;
     background: white;
-    min-height: 80vh;
+    min-height: 40vh;
     width: 60%;
     background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
     border-radius: 1.5rem;
@@ -33,25 +32,21 @@ main {
     backdrop-filter: blur(20px);
 }
 
+
+
 #chart1 {
-    font-family: 'Courier New', Courier, monospace;
-    color: white;
-    /* Questions */
-    /* width: 90% */
-    /* how to make this size be relative to the D3? */
+    display: inline-block;
+    position: relative;
 }
 
 .bar {
-    fill: rgba(255, 255, 255,0.4);
-}
-.bar-group{
-    color: white;
-
+    fill: rgba(255, 255, 255, 0.6);
 }
 
-.text-bar,
-text-axis {
+.textbar,
+.tick,
+.domain {
     font-family: 'Courier New', Courier, monospace;
     color: white;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
