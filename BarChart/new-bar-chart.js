@@ -1,30 +1,42 @@
-
-    let chartWidth = document.querySelector(".glass").offsetWidth
-    let chartHeight = document.querySelector(".glass").offsetHeight
-    let margin = {
-        top: 20,
-        right: 25,
-        bottom: 30,
-        left: 25,
-    }
-    let width = chartWidth - margin.left - margin.right;
-    let height = chartHeight - margin.top - margin.bottom;
+let chartWidth = document.querySelector(".glass").offsetWidth
+let chartHeight = document.querySelector(".glass").offsetHeight
+let margin = {
+    top: chartHeight / 10,
+    right: chartWidth / 20,
+    bottom: chartHeight / 10,
+    left: chartWidth / 20,
+}
+let width = chartWidth - margin.left - margin.right;
+let height = chartHeight - margin.top - margin.bottom;
 
 d3.json('/Scrapper/results.json')
-    .then(data => buildChart(data, width, height))
+    .then(data => {
+        buildChart(data, width, height)
+
+        window.addEventListener('resize', (e) => {
+            d3.select('svg').remove()
+            chartWidth = document.querySelector(".glass").offsetWidth
+            margin = {
+                top: chartHeight / 10,
+                right: chartWidth / 20,
+                bottom: chartHeight / 10,
+                left: chartWidth / 20,
+            }
+            width = chartWidth - margin.left - margin.right;
+            buildChart(data, width, height)
+        })
+    })
     .catch((error) => {
         throw error;
     });
 
-    window.addEventListener('resize', (e) => {
-        chartWidth = document.querySelector(".glass").offsetWidth
-        buildChart(data, width, height)
-    })
-
 function buildChart(data, width, height) {
 
-    //Q: how to make this relative to the CSS styles?
-    let animationSpeed = 1000;
+    let animationSpeed = 1000
+    let entries = initialLetters(data)
+        .sort((x, y) => d3.descending(x.value, y.value))
+    let maxCount = d3.max(entries, d => d.value)
+    let letters = entries.map(d => d.key)
 
     let svg = d3.select('#chart1')
         .append('svg')
@@ -33,21 +45,16 @@ function buildChart(data, width, height) {
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-    //Create the scales - fixed values
+    //scales
     let x = d3.scaleBand()
         .range([0, width])
         .padding(0.15)
+        .domain(letters)
 
     let y = d3.scaleLinear()
         .range([height, 0])
-
-    let entries = initialLetters(data)
-    let maxCount = d3.max(entries, d => d.value)
-    let letters = entries.map(d => d.key).sort()
-
-    x.domain(letters) //add domain to scales: values that will vary
-    y.domain([0, maxCount])
-        .nice() //rounds up the value for the axis
+        .domain([0, maxCount])
+        .nice()
 
     svg.append('g') // x axis
         .attr('transform', `translate(0, ${height})`)
@@ -56,44 +63,44 @@ function buildChart(data, width, height) {
         .attr('text-anchor', 'middle')
 
     svg.selectAll('.bar-group')
-    .data(entries, d => d.key)
-    .join(enter => {
-        let bar = enter.append('g')
-            .attr('class', 'bar-group')
-            .style('opacity', 1)
+        .data(entries, d => d.key)
+        .join(enter => {
+            let bar = enter.append('g')
+                .attr('class', 'bar-group')
+                .style('opacity', 1)
 
-        bar.append('rect')
-            .attr('class', 'bar')
-            .attr('x', d => x(d.key))
-            .attr('y', d => y(0))
-            .attr('width', x.bandwidth())
-            .attr('height', 0)
-            .transition()
-            .delay(animationSpeed / 10)
-            .duration(animationSpeed)
-            .attr('y', d => y(d.value))
-            .attr('height', d => height - y(d.value))
+            bar.append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(d.key))
+                .attr('y', d => y(0))
+                .attr('width', x.bandwidth())
+                .attr('height', 0)
+                .attr("rx", 2)
+                .on("mouseover", mouseOver)
+                .on("mouseout", mouseOut)
+                .transition()
+                .delay(animationSpeed / 10)
+                .duration(animationSpeed)
+                .attr('y', d => y(d.value))
+                .attr('height', d => height - y(d.value))
 
-        bar.append('text')
-            .attr('class', 'textbar')
-            .attr('style', 'color: #fff')
-            .attr('x', d => x(d.key) + (x.bandwidth() / 2))
-            .attr('text-anchor', 'middle')
-            .attr("y", d => {
-                return height;
-            })
-            .attr("height", 0)
-            .style('opacity', 0)
-            .transition()
-            .duration(animationSpeed)
-            .text(d => d.value)
-            .attr('y', d => y(d.value) - 10)
-            .style('opacity', 1)
-    })
-
+            bar.append('text')
+                .classed('textbar', true)
+                .attr('x', d => x(d.key) + (x.bandwidth() / 2))
+                .attr('text-anchor', 'middle')
+                .attr("y", d => {
+                    return height;
+                })
+                .attr("height", 0)
+                .style('opacity', 0)
+                .transition()
+                .duration(animationSpeed)
+                .text(d => d.value)
+                .attr('y', d => y(d.value) - 10)
+                .style('opacity', 1)
+        })
 }
 
-// FUNCTIONS
 function initialLetters(data) {
     data = data.filter(v => v.bandName != null)
     let bandInitials = []
@@ -120,4 +127,18 @@ function initialLetters(data) {
         value
     }))
     return entries
+}
+
+function mouseOver() {
+
+    d3.select(this)
+        .classed('bar', false)
+        .classed('bar-select', true)
+
+}
+
+function mouseOut() {
+    d3.select(this)
+        .classed('bar', true)
+        .classed('bar-select', false)
 }

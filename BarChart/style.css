@@ -4,18 +4,44 @@
     box-sizing: border-box;
 }
 
+body,
+html {
+    height: 100%;
+    background: linear-gradient(to right bottom, rgb(23, 23, 23), rgb(31, 31, 31));
+}
+
+.banner-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("https://images.unsplash.com/photo-1414759030024-7889df4b20f4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1987&q=80");
+    height: 25%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.banner-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Metal Mania', cursive;
+    font-size: 1.5rem;
+}
+
+p{
+    font-family: 'Lekton', sans-serif;
+    font-size: 0.8em;
+}
 
 main {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url("https://images.unsplash.com/photo-1414759030024-7889df4b20f4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1987&q=80") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     z-index: 1;
-
 }
 
 .glass {
@@ -32,21 +58,44 @@ main {
     backdrop-filter: blur(20px);
 }
 
-
-
 #chart1 {
     display: inline-block;
     position: relative;
 }
 
 .bar {
-    fill: rgba(255, 255, 255, 0.6);
+    fill: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+}
+
+.bar-select {
+    fill: rgb(201, 57, 57);
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
 }
 
 .textbar,
 .tick,
 .domain {
-    font-family: 'Courier New', Courier, monospace;
     color: white;
-    font-size: 0.7rem;
+    font-family: 'Lekton', sans-serif;
+    font-size: 0.6rem;
+}
+
+.textbar {
+    fill: white
+}
+
+.noise {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+    
+    pointer-events: none;
+    opacity: .15;
 }
