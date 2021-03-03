@@ -64,7 +64,7 @@ main {
 }
 
 .bar {
-    fill: rgba(255, 255, 255, 0.8);
+    fill: rgba(0, 0, 0, 0.8);
     border-radius: 20px;
     -webkit-border-radius: 20px;
 }
