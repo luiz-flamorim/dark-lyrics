@@ -1,3 +1,5 @@
+// run it on terminal: 'npm start run'
+
 const scraperObject = {
     url: 'http://www.darklyrics.com',
     async scraper(browser) {
@@ -48,13 +50,12 @@ const scraperObject = {
 
             //try/ catch as some of the links will throw errors
             try {
-
                 let bandName = await artistPage.$$eval('div.cont h1', band => band.map(name => name.textContent))
                 let albumData = await artistPage.$$eval('div.album', albums => albums.map(album => {
 
                     let nameAndYear = album.querySelector('h2').textContent
-                    if (!nameAndYear.includes('(')) {
-                        nameAndYear += '(no data)'
+                    if (!nameAndYear.includes('(\([0-9 a-z]{4}\))')) {
+                        nameAndYear += '(0000)'
                     }
 
                     let albumName;
@@ -82,7 +83,7 @@ const scraperObject = {
                     return {
                         albumName: albumName.replaceAll('\"', ''),
                         albumType: albumType.replaceAll('\n', ''),
-                        albumYear: nameAndYear.match(/\(([^\)]+)\)/).slice(1, 2)[0],
+                        albumYear: nameAndYear.match(/([0-9]{4})/).slice(1, 2)[0],
                         albumSongs: aSongs,
                     }
                 }))

@@ -1,29 +1,29 @@
-let chartWidth = document.querySelector(".glass").offsetWidth
-let chartHeight = document.querySelector(".glass").offsetHeight
+let width = document.querySelector(".glass").offsetWidth
+let height = document.querySelector(".glass").offsetHeight
 let margin = {
-    top: chartHeight / 10,
-    right: chartWidth / 20,
-    bottom: chartHeight / 10,
-    left: chartWidth / 20,
+    top: height / 10,
+    right: width / 20,
+    bottom: height / 10,
+    left: width / 20,
 }
-let width = chartWidth - margin.left - margin.right;
-let height = chartHeight - margin.top - margin.bottom;
+let charWidth = width - margin.left - margin.right;
+let charHeight = height - margin.top - margin.bottom;
 
 d3.json('/Scrapper/results.json')
     .then(data => {
-        buildChart(data, width, height)
+        buildChart(data, charWidth, charHeight)
 
         window.addEventListener('resize', (e) => {
             d3.select('svg').remove()
-            chartWidth = document.querySelector(".glass").offsetWidth
+            let width = document.querySelector(".glass").offsetWidth
             margin = {
-                top: chartHeight / 10,
-                right: chartWidth / 20,
-                bottom: chartHeight / 10,
-                left: chartWidth / 20,
+                top: height / 10,
+                right: width / 20,
+                bottom: height / 10,
+                left: width / 20,
             }
-            width = chartWidth - margin.left - margin.right;
-            buildChart(data, width, height)
+            charWidth = width - margin.left - margin.right;;
+            buildChart(data, charWidth, charHeight)
         })
     })
     .catch((error) => {
@@ -35,8 +35,8 @@ function buildChart(data, width, height) {
     let animationSpeed = 1000
     let entries = initialLetters(data)
         .sort((x, y) => d3.descending(x.value, y.value))
-    let maxCount = d3.max(entries, d => d.value)
     let letters = entries.map(d => d.key)
+    let maxCount = d3.max(entries, d => d.value)
 
     let svg = d3.select('#chart1')
         .append('svg')
@@ -130,11 +130,9 @@ function initialLetters(data) {
 }
 
 function mouseOver() {
-
     d3.select(this)
         .classed('bar', false)
         .classed('bar-select', true)
-
 }
 
 function mouseOut() {
