@@ -13,6 +13,19 @@ let charHeight = height - margin.top - margin.bottom;
 d3.json('/Scrapper/results.json')
     .then(data => {
         buildChart(data, charWidth, charHeight)
+
+        window.addEventListener('resize', (e) => {
+            d3.select('svg').remove()
+            let width = document.querySelector(".glass").offsetWidth
+            margin = {
+                top: height / 10,
+                right: width / 20,
+                bottom: height / 10,
+                left: width / 20,
+            }
+            charWidth = width - margin.left - margin.right;;
+            buildChart(data, charWidth, charHeight)
+        })
     })
     .catch((error) => {
         throw error;
@@ -28,11 +41,8 @@ function buildChart(data, width, height) {
 
     let svg = d3.select('#chart')
         .append('svg')
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("preserveAspectRatio", "xMinYMin")
-        .classed('svg-content-responsive', true)
-        // .attr('width', width + margin.left + margin.right)
-        // .attr('height', height + margin.top + margin.bottom)
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
@@ -92,7 +102,6 @@ function buildChart(data, width, height) {
                 .style('opacity', 1)
         })
 }
-
 
 function initialLetters(data) {
     data = data.filter(v => v.bandName != null)
