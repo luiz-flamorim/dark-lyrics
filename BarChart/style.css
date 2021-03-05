@@ -59,7 +59,7 @@ main {
     backdrop-filter: blur(20px);
 }
 
-#chart {
+#bar-chart-01 {
     display: inline-block;
     position: relative;
 }

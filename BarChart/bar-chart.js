@@ -39,10 +39,15 @@ function buildChart(data, width, height) {
     let letters = entries.map(d => d.key)
     let maxCount = d3.max(entries, d => d.value)
 
-    let svg = d3.select('#chart')
+    let svg = d3.select('#bar-chart-01')
+        // .append('div')
+        // .classed('svg-container', true)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
+        // .attr("preserveAspectRatio", "xMinYMin meet")
+        // .attr("viewBox", `0 0 ${width} ${height}`)
+        // .classed('svg-content-responsive', true)
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
