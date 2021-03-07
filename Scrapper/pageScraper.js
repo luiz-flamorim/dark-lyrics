@@ -6,6 +6,7 @@ const scraperObject = {
 
         let allUrl = []
         let bands = []
+        let errors = []
 
         let page = await browser.newPage();
         await page.setDefaultNavigationTimeout(0)
@@ -102,12 +103,13 @@ const scraperObject = {
                     bandUrl: allUrl[i],
                     error: error
                 })
-                bands.push(band)
+                errors.push(band)
                 artistPage.close()
             }
             //writing the results to JSON
             const fs = require('fs');
             fs.writeFileSync('./results.json', JSON.stringify(bands, null, '\t'));
+            fs.writeFileSync('./errors.json', JSON.stringify(errors, null, '\t'));
         }
         await browser.close();
     }
