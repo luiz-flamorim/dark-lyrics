@@ -1,0 +1,69 @@
+[{
+    "bandName": "...AAAARRGHH...",
+    "bandUrl": "http://www.darklyrics.com/a/aaaarrghh.html",
+    "bandAlbums": [{
+            "albumName": "...aaaarrghh...",
+            "albumType": "demo",
+            "albumYear": "1999",
+            "albumSongs": [{
+                    "songName": "Gecenin Gölgesi",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#1"
+                },
+                {
+                    "songName": "Son Şafak",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#2"
+                },
+                {
+                    "songName": "Fırtına Yaklaşyyor...",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#3"
+                },
+                {
+                    "songName": "Ebedi Buzulun Ortasında",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#4"
+                },
+                {
+                    "songName": "Lanetli Diyarlar",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#5"
+                }
+            ]
+        },
+        {
+            "albumName": "Ruhlar Fısıldıyor",
+            "albumType": "album",
+            "albumYear": "2004",
+            "albumSongs": [{
+                    "songName": "Kara Doğa",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#1"
+                },
+                {
+                    "songName": "Cenaze",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#2"
+                },
+                {
+                    "songName": "Sinsi Karanlık",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#3"
+                },
+                {
+                    "songName": "Karanlığin İlahileri",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#4"
+                },
+                {
+                    "songName": "Derinlerde",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#5"
+                },
+                {
+                    "songName": "Kefen",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#6"
+                },
+                {
+                    "songName": "Karanlık Sular",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#7"
+                },
+                {
+                    "songName": "Ebedi Yalnızlık",
+                    "songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#8"
+                }
+            ]
+        }
+    ]
+}]

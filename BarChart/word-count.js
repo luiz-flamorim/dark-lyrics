@@ -8,7 +8,7 @@ function countWords(data) {
     let normalization = normaliseLanguages(parsedSongNames)
 
     let wordMap = new Map();
-    let check = new Set(normalization) // check if the lenght is the same
+    // let check = new Set(normalization) // check if the lenght is the same
 
     for (let i = 0; i < normalization.length; i++) {
         if (!wordMap.has(normalization[i])) {
@@ -37,7 +37,8 @@ function getSongNames(data) {
             });
         });
     });
-    const totalNumberOfSongs = songNames.length // I possibly need this
+    const totalNumberOfSongs = songNames.length // I possibly need this.
+        //how to get this result into the  countWords function?
     console.log(`total songs: ${totalNumberOfSongs}`)
     return songNames
 }
