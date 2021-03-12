@@ -14,10 +14,12 @@ let originalLanguage = getOriginalTitles(data)
 
 updateJson()
 
+
 async function updateJson(){
-  const traslatedSongs = await translateText(originalLanguage)
-  // traslatedSongs.forEach(song => )
-  console.log(traslatedSongs)
+  const translatedSongs = await translateText(originalLanguage)
+  // console.log(translatedSongs)
+  translatedSongs.forEach(song => console.log(song))
+
 }
 
 async function translateText(originalString) {
@@ -41,12 +43,20 @@ async function detectLanguage(originalString) {
   return detections
 }
 
-function getOriginalTitles(data) {
+async function getOriginalTitles(data) {
   let foreignTitles = []
   data.forEach(band => {
     band.bandAlbums.forEach(album => {
       album.albumSongs.forEach(song => {
         foreignTitles.push(song.songName)
+
+        // create a new attribute for the name in english
+        // translate the song name using the google function
+        // push the new song name to the new attribute
+
+        // create a new attribute for the original language
+        // check the original language using the google function
+        // push the original language to the new atribute
       });
     });
   })
