@@ -1,0 +1,204 @@
+[
+	{
+		"bandName": "...AAAARRGHH...",
+		"bandUrl": "http://www.darklyrics.com/a/aaaarrghh.html",
+		"bandAlbums": [
+			{
+				"albumName": "...aaaarrghh...",
+				"albumType": "demo",
+				"albumYear": "1999",
+				"albumSongs": [
+					{
+						"songName": "Gecenin Gölgesi",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#1",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Gecenin Gölgesi"
+							}
+						],
+						"songEn": [
+							"Shadow of the Night"
+						]
+					},
+					{
+						"songName": "Son Şafak",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#2",
+						"orignialLanguage": [
+							{
+								"confidence": 1,
+								"language": "tr",
+								"input": "Son Şafak"
+							}
+						],
+						"songEn": [
+							"Last Dawn"
+						]
+					},
+					{
+						"songName": "Fırtına Yaklaşyyor...",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#3",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Fırtına Yaklaşyyor..."
+							}
+						],
+						"songEn": [
+							"The Storm Is Approaching ..."
+						]
+					},
+					{
+						"songName": "Ebedi Buzulun Ortasında",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#4",
+						"orignialLanguage": [
+							{
+								"confidence": 1,
+								"language": "tr",
+								"input": "Ebedi Buzulun Ortasında"
+							}
+						],
+						"songEn": [
+							"In The Middle Of The Eternal Glacier"
+						]
+					},
+					{
+						"songName": "Lanetli Diyarlar",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/aaaarrghh.html#5",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Lanetli Diyarlar"
+							}
+						],
+						"songEn": [
+							"Cursed Realms"
+						]
+					}
+				]
+			},
+			{
+				"albumName": "Ruhlar Fısıldıyor",
+				"albumType": "album",
+				"albumYear": "2004",
+				"albumSongs": [
+					{
+						"songName": "Kara Doğa",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#1",
+						"orignialLanguage": [
+							{
+								"confidence": 1,
+								"language": "tr",
+								"input": "Kara Doğa"
+							}
+						],
+						"songEn": [
+							"Dark Nature"
+						]
+					},
+					{
+						"songName": "Cenaze",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#2",
+						"orignialLanguage": [
+							{
+								"confidence": 0.96875,
+								"language": "tr",
+								"input": "Cenaze"
+							}
+						],
+						"songEn": [
+							"Funeral"
+						]
+					},
+					{
+						"songName": "Sinsi Karanlık",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#3",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Sinsi Karanlık"
+							}
+						],
+						"songEn": [
+							"Insidious Darkness"
+						]
+					},
+					{
+						"songName": "Karanlığin İlahileri",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#4",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Karanlığin İlahileri"
+							}
+						],
+						"songEn": [
+							"Hymns of Darkness"
+						]
+					},
+					{
+						"songName": "Derinlerde",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#5",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Derinlerde"
+							}
+						],
+						"songEn": [
+							"Deep inside"
+						]
+					},
+					{
+						"songName": "Kefen",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#6",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 0.76171875,
+								"input": "Kefen"
+							}
+						],
+						"songEn": [
+							"Shroud"
+						]
+					},
+					{
+						"songName": "Karanlık Sular",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#7",
+						"orignialLanguage": [
+							{
+								"language": "tr",
+								"confidence": 1,
+								"input": "Karanlık Sular"
+							}
+						],
+						"songEn": [
+							"Dark Waters"
+						]
+					},
+					{
+						"songName": "Ebedi Yalnızlık",
+						"songUrl": "http://www.darklyrics.com/lyrics/aaaarrghh/ruhlarfsldyor.html#8",
+						"orignialLanguage": [
+							{
+								"confidence": 1,
+								"language": "tr",
+								"input": "Ebedi Yalnızlık"
+							}
+						],
+						"songEn": [
+							"Eternal Loneliness"
+						]
+					}
+				]
+			}
+		]
+	}
+]
