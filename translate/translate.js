@@ -19,7 +19,6 @@ async function updateJson(){
   const translatedSongs = await translateText(originalLanguage)
   // console.log(translatedSongs)
   translatedSongs.forEach(song => console.log(song))
-
 }
 
 async function translateText(originalString) {
