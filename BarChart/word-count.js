@@ -21,9 +21,6 @@ function countWords(data) {
     const orderDescending = Array.from(wordMap)
         .sort((a, b) => a[1] - b[1])
         .reverse()
-    // console.log(wordMap.get('son'))
-    // console.log(wordMap)
-    // console.log(check)
     console.log(`total words: ${orderDescending.length}`)
     console.log(orderDescending)
 }
@@ -37,9 +34,12 @@ function getSongNames(data) {
             });
         });
     });
-    const totalNumberOfSongs = songNames.length // I possibly need this.
-        //how to get this result into the  countWords function?
-    console.log(`total songs: ${totalNumberOfSongs}`)
+    // const totalNumberOfSongs = songNames.length // I possibly need this.
+    //how to get this result into the  countWords function?
+
+    // let totalChar = songNames.join(',').length
+    // console.log(`total songs: ${totalNumberOfSongs}`)
+    // console.log(`total characters: ${totalChar}`)// 4446256 characters
     return songNames
 }
 
