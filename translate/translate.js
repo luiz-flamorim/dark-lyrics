@@ -17,25 +17,39 @@ async function getAndTranslate(data) {
     for (a in band.bandAlbums) {
       let album = band.bandAlbums[a]
       for (s in album.albumSongs) {
-        let song = album.albumSongs[s]
-        let originalLanguage = await detectLanguage(song.songName)
 
-        if (originalLanguage[0].language !== 'en') {
-          let translatedSong = await translateText(song.songName)
-          console.log(`--- translation: ${song.songName}`)
-          song['orignialLanguage'] = originalLanguage
-          song['songEn'] = translatedSong
-          fs.writeFileSync('/Users/luizamorim/Desktop/darklyrics/Scrapper/results.json', JSON.stringify(data, null, '\t'))
-        
-        } else {
-          console.log(`- song: ${song.songName}`)
-          song['orignialLanguage'] = {
-            "language": "en",
-            "confidence": '',
-            "input": song.songName
+        // function to build an array of all the songs in the album - returns the array
+        // function songArray(){
+        //   let array = album.albumSongs.forEach()
+        // }
+
+        let song = album.albumSongs[s]
+
+        if (!song.orignialLanguage) {
+
+          let originalLanguage = await detectLanguage(song.songName)
+
+
+          if (originalLanguage[0].language !== 'en') {
+
+            // translate the entire array of songs
+            let translatedSong = await translateText(song.songName)
+            console.log(`--- translation: ${song.songName}`)
+            song['orignialLanguage'] = originalLanguage
+            song['songEn'] = translatedSong
+            fs.writeFileSync('/Users/luizamorim/Desktop/darklyrics/Scrapper/results.json', JSON.stringify(data, null, '\t'))
+
+          } else {
+
+            console.log(`- song: ${song.songName}`)
+            song['orignialLanguage'] = {
+              "language": "en",
+              "confidence": '',
+              "input": song.songName
+            }
+            song['songEn'] = song.songName
+            fs.writeFileSync('/Users/luizamorim/Desktop/darklyrics/Scrapper/results.json', JSON.stringify(data, null, '\t'))
           }
-          song['songEn'] = song.songName
-          fs.writeFileSync('/Users/luizamorim/Desktop/darklyrics/Scrapper/results.json', JSON.stringify(data, null, '\t'))
         }
       }
     }
