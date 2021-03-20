@@ -8,7 +8,6 @@ function countWords(data) {
     let normalization = normaliseLanguages(parsedSongNames)
 
     let wordMap = new Map();
-    // let check = new Set(normalization) // check if the lenght is the same
 
     for (let i = 0; i < normalization.length; i++) {
         if (!wordMap.has(normalization[i])) {
@@ -30,16 +29,10 @@ function getSongNames(data) {
     data.forEach(band => {
         band.bandAlbums.forEach(album => {
             album.albumSongs.forEach(song => {
-                songNames.push(song.songName)
+                songNames.push(song.songEn)
             });
         });
     });
-    // const totalNumberOfSongs = songNames.length // I possibly need this.
-    //how to get this result into the  countWords function?
-
-    // let totalChar = songNames.join(',').length
-    // console.log(`total songs: ${totalNumberOfSongs}`)
-    // console.log(`total characters: ${totalChar}`)// 4446256 characters
     return songNames
 }
 
