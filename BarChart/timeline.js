@@ -15,7 +15,7 @@ d3.json('/Scrapper/results.json')
 function createTimeline(data) {
 
     // d3.select('#timeline')
-    // .attr('height',1200)
+    // .attr('height','5000px')
 
     let yearCount = new Map();
     for (let i = 0; i < data.length; i++) {
@@ -32,7 +32,7 @@ function createTimeline(data) {
 
     const scale = d3.scalePoint()
         .domain(sortedYears)
-        .range([height, 0])
+        .range([height-margin.bottom, 0])
 
     const minMaxScale = d3.scaleLinear()
         .domain([d3.min(sortedValues), d3.max(sortedValues)])
@@ -45,10 +45,11 @@ function createTimeline(data) {
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", `0 0 ${width} ${height}`)
         .classed('svg-content-responsive', true)
+        .style('background-color','red')
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-    let x = width / 2
+    let x = width / 2 - margin.left
 
     let circles = svg.selectAll('circles')
         .data(yearCount);
