@@ -1,11 +1,11 @@
-const height = window.innerHeight
-const width = window.innerWidth
 const margin = {
     left: 50,
     right: 50,
-    top: 30,
-    bottom: 30
+    top: 100,
+    bottom: 200
 }
+const height = window.innerHeight - margin.top - margin.bottom
+const width = window.innerWidth - margin.left - margin.right
 
 d3.json('/Scrapper/results.json')
     .then(data => {
@@ -13,6 +13,9 @@ d3.json('/Scrapper/results.json')
     })
 
 function createTimeline(data) {
+
+    // d3.select('#timeline')
+    // .attr('height',1200)
 
     let yearCount = new Map();
     for (let i = 0; i < data.length; i++) {
