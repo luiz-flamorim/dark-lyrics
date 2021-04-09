@@ -84,7 +84,7 @@ const scraperObject = {
                     return {
                         albumName: albumName.replaceAll('\"', ''),
                         albumType: albumType.replaceAll('\n', ''),
-                        albumYear: nameAndYear.match(/([0-9]{4})/).slice(1, 2)[0],
+                        albumYear: nameAndYear.match(/(\([0-9]{4}\))/).slice(1, 2)[0].replace(/[()]/g, ''),
                         albumSongs: aSongs,
                     }
                 }))
