@@ -1,5 +1,11 @@
 const height = window.innerHeight
 const width = window.innerWidth
+const margin = {
+    left: 50,
+    right: 50,
+    top: 30,
+    bottom: 30
+}
 
 d3.json('/Scrapper/results.json')
     .then(data => {
@@ -7,9 +13,6 @@ d3.json('/Scrapper/results.json')
     })
 
 function createTimeline(data) {
-
-    // const svg = d3.select('#dots')
-    //     .attr("viewBox", [0, 0, width, height]);
 
     let yearCount = new Map();
     for (let i = 0; i < data.length; i++) {
@@ -21,19 +24,40 @@ function createTimeline(data) {
             }
         }
     }
-    // const sortedYears = Array.from(yearCount.key).sort()
+    const sortedYears = Array.from(yearCount.keys()).sort()
+    const sortedValues = Array.from(yearCount.values()).sort()
 
-    
-    // const years = yearCount.map(d => d.key)
-    
-    
-    // console.log(yearCount)
-    console.log(yearCount.forEach(d => d.get(d)))
+    const scale = d3.scalePoint()
+        .domain(sortedYears)
+        .range([height, 0])
 
-// const scale = d3.scalePoint()
-//     .domain(config.domain)
-//     .range(config.range)
-//     .padding(config.padding)
-//     .round(config.round)
+    const minMaxScale = d3.scaleLinear()
+        .domain([d3.min(sortedValues), d3.max(sortedValues)])
+        .range([10, 100])
 
+    let svg = d3.select('#timeline')
+        .append('div')
+        .classed('svg-container', true)
+        .append('svg')
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .classed('svg-content-responsive', true)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+    let x = width / 2
+
+    let circles = svg.selectAll('circles')
+        .data(yearCount);
+
+    circles.join('circle')
+        .attr('cx', x)
+        .attr('cy', d => scale(d[0]))
+        .attr('r', d => minMaxScale(d[1]))
+
+    circles.join('text')
+        .attr('x', x + 10)
+        .attr('y', d => scale(d[0]))
+        .text(d => d[0])
+        .style('fill', '#fff')
 }
