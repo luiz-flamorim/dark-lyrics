@@ -66,6 +66,7 @@ function createTimeline(data) {
         .style('stroke-width', '1px')
         .style('stroke-opacity', '0.5')
         .on("mouseover", mouseOver)
+        .on("click", mouseClick)
         .on("mouseout", mouseOut)
 
     circles.join('text')
@@ -86,7 +87,6 @@ function createTimeline(data) {
         .style("color", "white")
         .style("border-radius", "5px")
         .style("padding", "10px")
-
 }
 
 function mouseOver() {
@@ -100,6 +100,27 @@ function mouseOut() {
     d3.select(this)
         .style('stroke', 'white')
 }
+
+function mouseClick() {
+    const str = this.querySelector('title').innerHTML.split(' ')
+    const year = str[str.length - 1]
+
+    //neet to use the 'year' filter above to map the albums released on that year.
+}
+
+try{
+    let testYear = ['2010']
+    const dataArray = Object.entries(data)
+    const albumsPerYear = data.filter(([key, value]) => value.bandAlbums[0].albumYear == "2010")
+    const filteredAlbums = Object.fromEntries(albumsPerYear)
+
+    console.log(filteredAlbums)
+
+}catch(error){
+    console.log('ERROR: ' + error)
+}
+
+
 
 //tooltip
 // https://github.com/Caged/d3-tip/blob/HEAD/docs/index.md
