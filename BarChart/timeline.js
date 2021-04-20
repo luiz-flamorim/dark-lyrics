@@ -7,6 +7,9 @@ const margin = {
 const height = 3000 - margin.top - margin.bottom
 const width = window.innerWidth - margin.left - margin.right
 
+createModal()
+//I am creating the Modal Div structure here to not think about the html now
+
 d3.json('/Scrapper/results.json')
     .then(data => {
         createTimeline(data)
@@ -78,7 +81,7 @@ function createTimeline(data) {
         .attr('id', (d, i) => 'thickCircleID-' + i)
         .style('fill', 'none')
         .style('stroke', 'black')
-        .style('stroke-width', '15px')
+        .style('stroke-width', '20px')
         .style('stroke-opacity', '0')
         .on("mouseover", mouseOver)
         .on("click", mouseClick)
@@ -115,9 +118,9 @@ function mouseOver() {
     let circleId = d3.select(`#circleID-${numberId}`)
         .style('stroke', 'red')
 
-    // d3.select(this)
-    //     .append("title")
-    //     .text(d => `${d[1]} albums were released in ${d[0]}`)
+    d3.select(this)
+        .append("title")
+        .text(d => `${d[1]} albums were released in ${d[0]}`)
 
     //tooltip
     // https://github.com/Caged/d3-tip/blob/HEAD/docs/index.md
@@ -133,7 +136,56 @@ function mouseOut() {
 }
 
 function mouseClick() {
-    const str = this.querySelector('title').innerHTML.split(' ')
-    const year = str[str.length - 1]
-    //need to use the 'year' filter above to map the albums released on that year.
+    // const str = this.querySelector('title').innerHTML.split(' ')
+    // const year = str[str.length - 1]
+    // //need to use the 'year' filter above to map the albums released on that year.
+
+
+    let numberId = d3.select(this).attr('id').split('-')[1]
+    let circleId = d3.select(`#circleID-${numberId}`)
+        .style('stroke-width', '3px')
+        .style('stroke-opacity', '1')
+        .transition()
+        .style('stroke-width', '1px')
+        .style('stroke-opacity', '0.5')
+
+
+    let window = document.querySelector('#modal')
+    let bg = document.querySelector('.modal-bg')
+
+    bg.classList.add('bg-active')
+
+    let card = document.createElement('div')
+    card.setAttribute('id', `card-${numberId}`)
+    window.appendChild(card)
+
+    let contentDiv = document.createElement('div')
+    card.appendChild(contentDiv)
+
+    let imageDiv = document.createElement('div')
+    card.appendChild(imageDiv)
+
+    let xClose = document.createElement('span')
+    xClose.innerHTML = 'X'
+    xClose.setAttribute('class', 'close')
+    card.appendChild(xClose)
+    xClose.addEventListener('click', function(){
+        window.innerHTML = ''
+        bg.classList.remove('bg-active')
+    })
+
+
+}
+
+function createModal(){
+    let domBody = document.querySelector('body')
+
+    let modalDiv = document.createElement('div')
+    modalDiv.setAttribute('class', 'modal-bg')
+    domBody.appendChild(modalDiv)
+
+    let modalInside = document.createElement('div')
+    modalInside.setAttribute('class', 'modal')
+    modalInside.setAttribute('id', 'modal')
+    modalDiv.appendChild(modalInside)
 }
