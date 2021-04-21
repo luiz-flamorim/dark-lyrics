@@ -18,7 +18,7 @@ d3.json('/Scrapper/results.json')
 function createTimeline(data) {
 
     let yearCount = new Map()
-    let yearAlbum = new Map()
+    let yearAlbum = {}
 
     for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].bandAlbums.length; j++) {
@@ -27,16 +27,21 @@ function createTimeline(data) {
             } else {
                 yearCount.set(`${data[i].bandAlbums[j].albumYear}`, yearCount.get(`${data[i].bandAlbums[j].albumYear}`) + 1)
             }
-            // if (!yearAlbum.has(data[i].bandAlbums[j].albumYear)) {
-            //     yearAlbum.set(`${data[i].bandAlbums[j].albumYear}`, [`${data[i].bandAlbums[j].albumName}`])
-            // } else {
-            //     yearAlbum.set(`${data[i].bandAlbums[j].albumYear}`, yearAlbum.get(`${data[i].bandAlbums[j].albumYear}`).push(`${data[i].bandAlbums[j].albumName}`))
-            // }
+
+            if (!(data[i].bandAlbums[j].albumYear in yearAlbum)) {
+                let newAlbum = [];
+                newAlbum.push(`${data[i].bandAlbums[j].albumName}`)
+                yearAlbum[`${data[i].bandAlbums[j].albumYear}`] = newAlbum;
+            } else {
+                let albumArray = yearAlbum[`${data[i].bandAlbums[j].albumYear}`];
+                albumArray.push(`${data[i].bandAlbums[j].albumName}`)
+                yearAlbum[`${data[i].bandAlbums[j].albumYear}`] = albumArray;
+            }
         }
     }
 
     yearCount.delete('0000')
-    // console.log(yearAlbum)
+    console.log(data)
 
     const sortedYears = Array.from(yearCount.keys()).sort()
     const sortedValues = Array.from(yearCount.values()).sort()
@@ -150,6 +155,7 @@ function mouseClick() {
         .style('stroke-opacity', '0.5')
 
 
+    // the modal is tagging the elements I created in the DOM
     let window = document.querySelector('#modal')
     let bg = document.querySelector('.modal-bg')
 
@@ -166,18 +172,16 @@ function mouseClick() {
     card.appendChild(imageDiv)
 
     let xClose = document.createElement('span')
-    xClose.innerHTML = 'X'
-    xClose.setAttribute('class', 'close')
+    xClose.innerHTML = 'cancel'
+    xClose.setAttribute('class', 'close material-icons')
     card.appendChild(xClose)
-    xClose.addEventListener('click', function(){
+    xClose.addEventListener('click', function () {
         window.innerHTML = ''
         bg.classList.remove('bg-active')
     })
-
-
 }
 
-function createModal(){
+function createModal() {
     let domBody = document.querySelector('body')
 
     let modalDiv = document.createElement('div')
