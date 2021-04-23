@@ -162,10 +162,6 @@ function mouseClick(d) {
     contentDiv.setAttribute('class', `pop-up`)
     card.appendChild(contentDiv)
 
-    let albumsDiv = document.createElement('div')
-    albumsDiv.setAttribute('class', `album-div`)
-    contentDiv.appendChild(albumsDiv)
-
     // builds the title and sub
     let title = document.createElement('p')
     title.setAttribute('class', `popup-title`)
@@ -178,6 +174,10 @@ function mouseClick(d) {
     contentDiv.appendChild(subTitle)
 
     // builds the list of albums
+    let albumsDiv = document.createElement('div')
+    albumsDiv.setAttribute('class', `album-div`)
+    contentDiv.appendChild(albumsDiv)
+
     let list = document.createElement('ul')
     list.setAttribute('class', `album-columns`)
     albumsDiv.appendChild(list)
@@ -223,5 +223,5 @@ function addAlbumList(data) {
 }
 
 // NOTES
-//tooltip
+// tooltip
 // https://github.com/Caged/d3-tip/blob/HEAD/docs/index.md
