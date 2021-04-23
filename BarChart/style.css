@@ -15,7 +15,7 @@ html {
     height: 100vh;
     left: 0;
     top: 0;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1;
     -webkit-backdrop-filter: blur(5px);
     display: flex;
@@ -26,34 +26,60 @@ html {
     transition: visibility 0s, opacity 0.5s;
 }
 
-.bg-active{
+.bg-active {
     visibility: visible;
     opacity: 1;
 }
 
-.modal{
-    position:relative;
+.modal {
+    position: relative;
     background-color: rgb(0, 0, 0, 0.5);
     padding: 2%;
-    width:50%;
-    height:50%;
+    width: 50%;
+    height: 50%;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* justify-content: space-around; */
-    flex-direction: column;
-
+    align-content: center;
+    justify-content: space-between;
 }
 
-.close{
+.pop-up{
+    align-content: center;
+    justify-content: space-between;
+}
+
+.close {
     cursor: pointer;
-    position:absolute;
-    top:10px;
-    right:10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     font-family: 'Jost', sans-serif;
     font-size: 2em;
     font-weight: 200;
     color: #fff;
-    z-index:2
+    z-index: 2
+}
+
+/* text style */
+
+.popup-title,
+.popup-sub-title,
+.album-columns {
+    font-family: 'Lekton';
+    color: #fff;
+}
+
+.popup-title {
+    font-weight: 700;
+    font-size: 4em;
+    text-align: center;
+}
+
+.popup-sub-title {
+    font-weight: 400;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.album-columns{
+
 }
