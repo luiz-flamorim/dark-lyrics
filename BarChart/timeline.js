@@ -21,6 +21,8 @@ function createTimeline(data) {
     let yearAlbum = {}
 
     for (let i = 0; i < data.length; i++) {
+        let bandName = data[i].bandName
+
         for (let j = 0; j < data[i].bandAlbums.length; j++) {
             if (!yearCount.has(data[i].bandAlbums[j].albumYear)) {
                 yearCount.set(`${data[i].bandAlbums[j].albumYear}`, 1)
@@ -30,18 +32,18 @@ function createTimeline(data) {
 
             if (!(data[i].bandAlbums[j].albumYear in yearAlbum)) {
                 let newAlbum = [];
-                newAlbum.push(`${data[i].bandAlbums[j].albumName}`)
+                newAlbum.push(`${bandName} - ${data[i].bandAlbums[j].albumName}`)
                 yearAlbum[`${data[i].bandAlbums[j].albumYear}`] = newAlbum;
             } else {
                 let albumArray = yearAlbum[`${data[i].bandAlbums[j].albumYear}`];
-                albumArray.push(`${data[i].bandAlbums[j].albumName}`)
+                albumArray.push(`${bandName} - ${data[i].bandAlbums[j].albumName}`)
                 yearAlbum[`${data[i].bandAlbums[j].albumYear}`] = albumArray;
             }
         }
     }
 
     yearCount.delete('0000')
-    // console.log(data)
+    // console.log(yearAlbum[1970])
 
     const sortedYears = Array.from(yearCount.keys()).sort()
     const sortedValues = Array.from(yearCount.values()).sort()
@@ -114,92 +116,107 @@ function createTimeline(data) {
         .style("color", "white")
         .style("border-radius", "5px")
         .style("padding", "10px")
-}
 
-function mouseOver() {
-    let numberId = d3.select(this).attr('id').split('-')[1]
-    let textID = d3.select(`#textID-${numberId}`)
-        .style('fill', 'red')
-    let circleId = d3.select(`#circleID-${numberId}`)
-        .style('stroke', 'red')
 
-    d3.select(this)
-        .append("title")
-        .text(d => `${d[1]} albums were released in ${d[0]}`)
-}
 
-function mouseOut() {
-    let numberId = d3.select(this).attr('id').split('-')[1]
-    let textID = d3.select(`#textID-${numberId}`)
-        .style('fill', 'white')
-    let circleId = d3.select(`#circleID-${numberId}`)
-        .style('stroke', 'white')
-}
 
-function mouseClick(d) {
 
-    console.log(d) //=> how do I get the data inside of this function?
+    function mouseOver() {
+        let numberId = d3.select(this).attr('id').split('-')[1]
+        let textID = d3.select(`#textID-${numberId}`)
+            .style('fill', 'red')
+        let circleId = d3.select(`#circleID-${numberId}`)
+            .style('stroke', 'red')
 
-    let numberId = d3.select(this).attr('id').split('-')[1]
-    let circleId = d3.select(`#circleID-${numberId}`)
-        .style('stroke-width', '3px')
-        .style('stroke-opacity', '1')
-        .transition()
-        .style('stroke-width', '1px')
-        .style('stroke-opacity', '0.5')
+        d3.select(this)
+            .append("title")
+            .text(d => `${d[1]} albums were released in ${d[0]}`)
+    }
 
-    // the modal is tagging the elements I created in the DOM
-    let window = document.querySelector('#modal')
-    let bg = document.querySelector('.modal-bg')
-    bg.classList.add('bg-active')
+    function mouseOut() {
+        let numberId = d3.select(this).attr('id').split('-')[1]
+        let textID = d3.select(`#textID-${numberId}`)
+            .style('fill', 'white')
+        let circleId = d3.select(`#circleID-${numberId}`)
+            .style('stroke', 'white')
+    }
 
-    // building the div structure
-    let card = document.createElement('div')
-    card.setAttribute('id', `card-${numberId}`)
-    window.appendChild(card)
+    function mouseClick(d) {
 
-    let contentDiv = document.createElement('div')
-    contentDiv.setAttribute('class', `pop-up`)
-    card.appendChild(contentDiv)
+        let numberId = d3.select(this).attr('id').split('-')[1]
+        let circleId = d3.select(`#circleID-${numberId}`)
+            .style('stroke-width', '3px')
+            .style('stroke-opacity', '1')
+            .transition()
+            .style('stroke-width', '1px')
+            .style('stroke-opacity', '0.5')
 
-    // builds the title and sub
-    let title = document.createElement('p')
-    title.setAttribute('class', `popup-title`)
-    title.innerHTML = `${d.srcElement.__data__[0]}`
-    contentDiv.appendChild(title)
+        // the modal is tagging the elements I created in the DOM
+        let window = document.querySelector('#modal')
+        let bg = document.querySelector('.modal-bg')
+        bg.classList.add('bg-active')
 
-    let subTitle = document.createElement('p')
-    subTitle.setAttribute('class', `popup-sub-title`)
-    subTitle.innerHTML = `${d.srcElement.__data__[1]} albums were released`
-    contentDiv.appendChild(subTitle)
+        // building the div structure
+        let card = document.createElement('div')
+        card.setAttribute('id', `card-${numberId}`)
+        window.appendChild(card)
 
-    // builds the list of albums
-    let albumsDiv = document.createElement('div')
-    albumsDiv.setAttribute('class', `album-div`)
-    contentDiv.appendChild(albumsDiv)
+        let contentDiv = document.createElement('div')
+        contentDiv.setAttribute('class', `pop-up`)
+        card.appendChild(contentDiv)
 
-    let list = document.createElement('ul')
-    list.setAttribute('class', `album-columns`)
-    albumsDiv.appendChild(list)
+        // builds the title and sub
+        let title = document.createElement('p')
+        title.setAttribute('class', `popup-title`)
+        title.innerHTML = `${d.srcElement.__data__[0]}`
+        contentDiv.appendChild(title)
 
-    const str = this.querySelector('title').innerHTML.split(' ')
-    const year = str[str.length - 1]
+        let subTitle = document.createElement('p')
+        subTitle.setAttribute('class', `popup-sub-title`)
+        let singular = 'album released'
+        let plural = 'albums released'
+        //build an if here for making the sentence on singular/ plural
+        subTitle.innerHTML = `${d.srcElement.__data__[1]} albums released`
 
-    addAlbumList(year)
+        // woooooow
+        let test = d3.select(this).data()[0][0]
 
-    //question: why I can't use this below?
-    // d3.select('popup-title')
-    //     .append("text")
-    //     .text(d => `${d[1]} albums were released in ${d[0]}`)
+        console.log(test)
+        contentDiv.appendChild(subTitle)
 
-    let xClose = document.createElement('span')
-    xClose.innerHTML = 'cancel'
-    xClose.setAttribute('class', 'close material-icons')
-    card.appendChild(xClose)
-    xClose.addEventListener('click', function () {
-        window.innerHTML = ''
-        bg.classList.remove('bg-active')
-    })
+        // builds the list of albums
+        let albumsDiv = document.createElement('div')
+        albumsDiv.setAttribute('class', `album-div`)
+        contentDiv.appendChild(albumsDiv)
+
+        let list = document.createElement('ul')
+        list.setAttribute('class', `album-columns`)
+        albumsDiv.appendChild(list)
+
+        const str = this.querySelector('title').innerHTML.split(' ')
+        const year = str[str.length - 1]
+
+        list.innerHTML = addAlbumList(year)
+
+        let xClose = document.createElement('span')
+        xClose.innerHTML = 'cancel'
+        xClose.setAttribute('class', 'close material-icons')
+        card.appendChild(xClose)
+        xClose.addEventListener('click', function () {
+            window.innerHTML = ''
+            bg.classList.remove('bg-active')
+        })
+    }
+
+    function addAlbumList(year) {
+        let albums = yearAlbum[year]
+        let albumsString = ''
+        albums.forEach(album => {
+            let element = `<li>${album}</li>`
+            albumsString = albumsString + element
+        })
+        return albumsString
+    }
 }
 
 function createModal() {
@@ -214,14 +231,6 @@ function createModal() {
     modalInside.setAttribute('id', 'modal')
     modalDiv.appendChild(modalInside)
 }
-
-function addAlbumList(data) {
-    // need to bring the data here
-    // need to filter the data based on the year
-    // need to return band name + album from the Filter
-    // need to add each element in the <li> tag
-}
-
 // NOTES
 // tooltip
 // https://github.com/Caged/d3-tip/blob/HEAD/docs/index.md

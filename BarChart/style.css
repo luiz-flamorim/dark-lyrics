@@ -6,7 +6,7 @@
 
 body,
 html {
-    background: linear-gradient(to right bottom, rgb(23, 23, 23), rgb(31, 31, 31));
+    background: linear-gradient(to right bottom, rgb(23, 23, 23), rgb(45, 45, 45));
 }
 
 .modal-bg {
@@ -40,6 +40,8 @@ html {
     border-radius: 5px;
     align-content: center;
     justify-content: space-between;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .pop-up{
