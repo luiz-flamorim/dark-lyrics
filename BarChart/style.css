@@ -6,7 +6,7 @@
 
 body,
 html {
-    background: linear-gradient(to right bottom, rgb(23, 23, 23), rgb(45, 45, 45));
+    background: linear-gradient(to right bottom, rgb(15, 15, 15), rgb(10, 5, 5));
 }
 
 .modal-bg {
@@ -32,22 +32,36 @@ html {
 }
 
 .modal {
-    position: relative;
+    position: fixed;
     background-color: rgb(0, 0, 0, 0.5);
     padding: 2%;
-    width: 50%;
-    height: 50%;
+    width: 35rem;
+    height: 35rem;
     border-radius: 5px;
     align-content: center;
     justify-content: space-between;
-    overflow: scroll;
-    overflow-x: hidden;
+    /* overflow: auto; */
 }
 
-.pop-up{
+.pop-up {
     align-content: center;
     justify-content: space-between;
 }
+
+.album-div{
+    /* position: fixed; */
+    overflow: auto;
+    height: auto;
+    max-height: 25rem;    
+}
+
+.album-columns {
+    column-count: 2;
+    column-width: 50%;
+    column-gap: 10%;
+ }
+
+ /* buttons */
 
 .close {
     cursor: pointer;
@@ -61,28 +75,60 @@ html {
     z-index: 2
 }
 
+/* Scrollbar  */
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background:  rgba(255, 255, 255, 0.02);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    max-height: 5px;
+    background-color: rgba(255, 255, 255,0.0);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  
 /* text style */
 
 .popup-title,
 .popup-sub-title,
-.album-columns {
+.album-columns,
+.listTitle,
+.listItem {
     font-family: 'Lekton';
     color: #fff;
 }
 
 .popup-title {
     font-weight: 700;
-    font-size: 4em;
+    font-size: 3.5rem;
     text-align: center;
 }
 
 .popup-sub-title {
     font-weight: 400;
-    font-size: 1.5em;
+    font-size: 1.2rem;
     text-align: center;
+    margin-bottom:2rem;
 }
 
-.album-columns{
-    column-count: 2;
-    column-width: 50%;
+.listTitle {
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    list-style-type: none;
+}
+
+.listItem {
+    font-weight: 400;
+    font-size: 0.1rem;
+    list-style-type: none;
+    margin-top: 0.3rem;
 }

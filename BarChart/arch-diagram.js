@@ -39,7 +39,7 @@ function createArch(data) {
 
     const filter = 50
     for (let [key, value] of dataMap) {
-        if (value.length < filter || key == 'Intro' || key == 'Untitled') {
+        if (value.length < filter || key == 'Intro' || key == 'Untitled' || key == 'Other') {
             dataMap.delete(key)
         }
     }
@@ -56,7 +56,19 @@ function createArch(data) {
     }
 
     dataMap.forEach((bands, music) => {
-        console.log('music: ' + music + " | bands: " + bands)
+
+        let musicList = document.createElement('li')
+        musicList.setAttribute('class', 'listTitle')
+        musicList.innerHTML = music
+        divList.appendChild(musicList)
+
+        bands.forEach(band =>{
+            let bandList = document.createElement('li')
+            bandList.setAttribute('class', 'listItem')
+            bandList.innerHTML = band
+            divList.appendChild(bandList)
+        })
+
     })
 
 
