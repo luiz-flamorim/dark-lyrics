@@ -7,6 +7,7 @@ const margin = {
 const height = 3000 - margin.top - margin.bottom
 const width = window.innerWidth - margin.left - margin.right
 
+createSlider()
 
 d3.json('/Scrapper/results-translation.json')
     .then(data => {
@@ -37,7 +38,12 @@ function createArch(data) {
         }
     }
 
-    const filter = 50
+    // building a slider to handle the filter
+    let sliderSelector = document.querySelector('.slider')
+    // sliderSelector.value = 50
+    console.log(sliderSelector.value)
+
+    const filter = sliderSelector.value
     for (let [key, value] of dataMap) {
         if (value.length < filter || key == 'Intro' || key == 'Untitled' || key == 'Other') {
             dataMap.delete(key)
@@ -48,12 +54,12 @@ function createArch(data) {
     let divList = document.createElement('ul')
     domDiv.appendChild(divList)
 
-    let newMap = Object.fromEntries(dataMap)
-    console.log(newMap) //returns an object from the map
+    let newMap = Object.fromEntries(dataMap) //returns an object from the map
+    // console.log(newMap) 
 
-    for (let [key, value] of dataMap.entries()) {
-        // console.log(`${value}`);
-    }
+    // for (let [key, value] of dataMap.entries()) {
+    //     // console.log(`${value}`);
+    // }
 
     dataMap.forEach((bands, music) => {
 
@@ -85,4 +91,18 @@ function normalise(string) {
         function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
         })
+}
+
+function createSlider(){
+    let diagramDiv = document.querySelector('#arch-diagram')
+    let sliderContainer = document.createElement('div')
+    sliderContainer.setAttribute('class','slidecontainer')
+    diagramDiv.appendChild(sliderContainer)
+
+    let filterSlider = document.createElement('input')
+    filterSlider.setAttribute('class', 'slider')
+    filterSlider.setAttribute('type', 'range')
+    filterSlider.setAttribute('min', '20')
+    filterSlider.setAttribute('max', '50')
+    diagramDiv.appendChild(filterSlider)
 }

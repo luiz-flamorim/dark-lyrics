@@ -41,9 +41,7 @@ function createTimeline(data) {
             }
         }
     }
-
     yearCount.delete('0000')
-    // console.log(yearAlbum[1970])
 
     const sortedYears = Array.from(yearCount.keys()).sort()
     const sortedValues = Array.from(yearCount.values()).sort()
@@ -116,10 +114,6 @@ function createTimeline(data) {
         .style("color", "white")
         .style("border-radius", "5px")
         .style("padding", "10px")
-
-
-
-
 
     function mouseOver() {
         let numberId = d3.select(this).attr('id').split('-')[1]
