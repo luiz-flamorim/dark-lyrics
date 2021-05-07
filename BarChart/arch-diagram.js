@@ -39,45 +39,93 @@ function createArch(data) {
     }
 
     // building a slider to handle the filter
-    let sliderSelector = document.querySelector('.slider')
+    // let sliderSelector = document.querySelector('.slider')
     // sliderSelector.value = 50
-    console.log(sliderSelector.value)
 
-    const filter = sliderSelector.value
+    // sliderSelector.addEventListener()
+    // console.log(sliderSelector.value)
+
+    const filter = 70
     for (let [key, value] of dataMap) {
         if (value.length < filter || key == 'Intro' || key == 'Untitled' || key == 'Other') {
             dataMap.delete(key)
         }
     }
 
-    let domDiv = document.querySelector('#arch-diagram')
-    let divList = document.createElement('ul')
-    domDiv.appendChild(divList)
+    let links = []
+    let songList = []
+    let bandList = new Set()
 
-    let newMap = Object.fromEntries(dataMap) //returns an object from the map
-    // console.log(newMap) 
+    let count = 0;
 
-    // for (let [key, value] of dataMap.entries()) {
-    //     // console.log(`${value}`);
-    // }
-
-    dataMap.forEach((bands, music) => {
-
-        let musicList = document.createElement('li')
-        musicList.setAttribute('class', 'listTitle')
-        musicList.innerHTML = music
-        divList.appendChild(musicList)
-
-        bands.forEach(band =>{
-            let bandList = document.createElement('li')
-            bandList.setAttribute('class', 'listItem')
-            bandList.innerHTML = band
-            divList.appendChild(bandList)
+    dataMap.forEach((bands, song) => {
+        songList.push(song)
+        bands.forEach(band => {
+            bandList.add(band)
+            let link = {
+                id: count,
+                source: song,
+                target: band
+            }
+            links.push(link)
+            count++;
         })
-
     })
 
+    bandList = Array.from(bandList)
+    bandList.sort()
+    songList.sort()
 
+    const songAndBand = songList.concat(bandList)
+
+    let x = width * 0.8
+
+    let y = d3.scalePoint()
+        .domain(songAndBand)
+        .range([0, height - margin.bottom])
+
+    let svg = d3.select('#arch-diagram')
+        .append('div')
+        .classed('svg-container', true)
+        .append('svg')
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .classed('svg-content-responsive', true)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+    let names = svg.selectAll('text')
+        .data(songAndBand)
+
+    let nameText = names.join('text')
+        .attr('x', x)
+        .attr('y', d => y(d))
+        .text(d => d)
+        .attr('class', 'archItem')
+        .style("alignment-baseline", 'central')
+        .style("text-anchor", 'left')
+
+    let arcLinksPaths = svg.selectAll('path')
+        .data(links, d => d.id);
+
+    arcLinksPaths.join(
+            enter => enter.append("path")
+            .style("opacity", 0)
+            .attr("stroke", '#fff')
+            .call(e => e.attr('d', getArc)
+                .style('opacity', .1)
+            ),
+        )
+        .style("fill", "none")
+        .attr("stroke-width", 1);
+
+    function getArc(d) {
+        let start = y(d.source)
+        let end = y(d.target)
+        let middle = (end - start) / 2
+        return [`M ${x - 2} ${start} A ${middle}, ${middle} 0 0, 0 ${x - 2}, ${end}`]
+            .join(' ');
+    }
 }
 
 function normalise(string) {
@@ -85,7 +133,7 @@ function normalise(string) {
     let normalised = string.toString()
     normalised.match(regex)
     normalised.replace(/\s{2,}/, ' ')
-
+    normalised.replace(' / ', '/ ')
     return normalised.replace(
         /\w\S*/g,
         function (txt) {
@@ -93,10 +141,10 @@ function normalise(string) {
         })
 }
 
-function createSlider(){
+function createSlider() {
     let diagramDiv = document.querySelector('#arch-diagram')
     let sliderContainer = document.createElement('div')
-    sliderContainer.setAttribute('class','slidecontainer')
+    sliderContainer.setAttribute('class', 'slidecontainer')
     diagramDiv.appendChild(sliderContainer)
 
     let filterSlider = document.createElement('input')

@@ -130,7 +130,19 @@ html {
 
 .listItem {
     font-weight: 400;
-    font-size: 0.1rem;
+    font-size: 0.2rem;
     list-style-type: none;
     margin-top: 0.3rem;
+    fill: #fff;
 }
+
+.archItem {
+    font-weight: 400;
+    font-size: 0.2rem;
+    list-style-type: none;
+    fill: #fff;
+}
+/* arch diagram tests */
+/* #arch-diagram{
+ overflow: hidden;   
+} */
